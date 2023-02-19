@@ -42,3 +42,36 @@ const DOWN_DIR = 40;
 
 let snakeCurrentDirection = RIGHT_DIR;
 
+//Make sure that the user input is valid and change snake direction variable
+const changeDirection = newDirectionCode => {
+    if(newDirectionCode == snakeCurrentDirection) return;
+  
+    if (newDirectionCode == LEFT_DIR && snakeCurrentDirection !== RIGHT_DIR) {
+      snakeCurrentDirection = newDirectionCode
+    } else if(newDirectionCode == UP_DIR && snakeCurrentDirection !== DOWN_DIR) {
+      snakeCurrentDirection = newDirectionCode
+    }else if (newDirectionCode == RIGHT_DIR && snakeCurrentDirection !== LEFT_DIR) {
+      snakeCurrentDirection = newDirectionCode
+    } else if (newDirectionCode == DOWN_DIR && snakeCurrentDirection !== UP_DIR) {
+      snakeCurrentDirection = newDirectionCode
+    }
+  }
+
+
+  //set starting point for snake on load
+  let currentHeadPosition = TOTAL_PIXEL_COUNT / 2
+
+//set initial length
+  let snakeLength = 200
+
+  //start moving snake
+  const moveSnake = () => {
+    switch(snakeCurrentDirection) {
+       case LEFT_DIR : --currentHeadPosition;
+       const isHeadAtLeft = currentFoodPosition % LINE_PIXEL_COUNT == LINE_PIXEL_COUNT - 1 || currentHeadPosition < 0;
+       if (isHeadAtLeft){
+        currentHeadPosition = currentHeadPosition + LINE_PIXEL_COUNT
+       }
+       break;
+    }
+  }
