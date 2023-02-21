@@ -64,7 +64,7 @@ const changeDirection = newDirectionCode => {
 //set initial length
   let snakeLength = 200
 
-  //start moving snake
+  //start moving snake, wrap around to other side
   const moveSnake = () => {
     switch(snakeCurrentDirection) {
        case LEFT_DIR : --currentHeadPosition;
@@ -73,5 +73,85 @@ const changeDirection = newDirectionCode => {
         currentHeadPosition = currentHeadPosition + LINE_PIXEL_COUNT
        }
        break;
+       case RIGHT_DIR : ++currentHeadPosition;
+       const isHeadAtRight = currentHeadPosition % LINE_PIXEL_COUNT == 0
+       if(isHeadAtRight){
+        currentHeadPosition = currentHeadPosition - LINE_PIXEL_COUNT
+       }
+       break;
+       case UP_DIR : currentHeadPosition = currentHeadPosition - LINE_PIXEL_COUNT;
+       const isHeadAtTop = currentHeadPosition < 0 
+       if(isHeadAtTop){
+        currentHeadPosition = currentHeadPosition + TOTAL_PIXEL_COUNT
+       }
+       break;
+       case DOWN_DIR : 
+       currentHeadPosition = currentHeadPosition + LINE_PIXEL_COUNT;
+       const isHeadAtBottom = currentHeadPosition > TOTAL_PIXEL_COUNT - 1
+       if (isHeadAtBottom){
+        currentHeadPosition = currentHeadPosition - TOTAL_PIXEL_COUNT
+       }
+       break;
+       default:
+       break;
     }
+//accessed the correct pixel within the HTML collection
+    let nextSnakeHeadPixel = gameBoardPixels[currentHeadPosition];
+
+//Check if snake head is about to intersect with it's own body    
+
+    if(nextSnakeHeadPixel.classList.contains('snake-body-pixel')){
+        clearInterval(moveSnakeInterval)
+        alert(`You have eaten ${totalFoodEaten} food and traveled ${totalDistanceTraveled} blocks.`)
+        window.location.reload()
+    }
+
+
+    //assuming an empty pixel, add snake body styling
+
+    nextSnakeHeadPixel.classList.add("snake-body-pixel")
+
+    //remove snake styling to keep snake appropriate length
+
+    setTimeout(() => {
+        nextSnakeHeadPixel.classList.remove('snake-body-pixel')
+    }, snakeLength);
+//what to do if snake encounters a food pixel
+
+
+    if(currentHeadPosition == currentFoodPosition) {
+        totalFoodEaten++;
+        document.getElementById('points-earned').innerText = totalFoodEaten
+        snakeLength = snakeLength + 100
+        createFood();
+    }
+
+    //added total distance traveled
+    totalDistanceTraveled++
+    document.getElementById('blocks-traveled').innerText = totalDistanceTraveled
+
   }
+
+  //call function to run program
+
+  createGameBoardPixels();
+
+  createFood();
+// set animation speed
+  let moveSnakeInterval = setInterval(moveSnake, 100)
+
+//event listeners
+
+addEventListener("keydown", e => changeDirection(e.keyCode))
+
+//Adding variables for on-screen buttons
+const leftButton  = document.getElementById('left-button')
+const rightButton  = document.getElementById('right-button')
+const upButton  = document.getElementById('upButton')
+const downButton  = document.getElementById('down-button')
+
+//Add listeners for arrow keys
+leftButton.onclick = () => changeDirection(LEFT_DIR)
+rightButton.onclick = () => changeDirection(RIGHT_DIR)
+upButton.onclick = () => changeDirection(UP_DIR)
+downButton.onclick = () => changeDirection(DOWN_DIR)

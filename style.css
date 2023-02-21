@@ -18,7 +18,7 @@ body {
     height: 1vw;
     border-radius: 10px;
     float: left;
-    outline: 1px solid red;/*works same as border but doesn't move things in the box model*/
+    /*outline: 1px solid red;*//*works same as border but doesn't move things in the box model*/
 }
 
 .food {
