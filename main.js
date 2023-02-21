@@ -128,7 +128,7 @@ const changeDirection = newDirectionCode => {
 
     //added total distance traveled
     totalDistanceTraveled++
-    document.getElementById('blocks-traveled').innerText = totalDistanceTraveled
+    document.getElementById('points-traveled').innerText = totalDistanceTraveled
 
   }
 
@@ -147,7 +147,7 @@ addEventListener("keydown", e => changeDirection(e.keyCode))
 //Adding variables for on-screen buttons
 const leftButton  = document.getElementById('left-button')
 const rightButton  = document.getElementById('right-button')
-const upButton  = document.getElementById('upButton')
+const upButton  = document.getElementById('up-button')
 const downButton  = document.getElementById('down-button')
 
 //Add listeners for arrow keys
